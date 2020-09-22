@@ -1,3 +1,13 @@
+
+#envs, data, models & results file
+envs
+data/*
+models/*
+result/*
+web/html/*
+web/json/*
+
+
 creds.json
 .vscode
 *.csv
@@ -107,3 +117,6 @@ venv.bak/
 
 # mypy
 .mypy_cache/
+
+
+
