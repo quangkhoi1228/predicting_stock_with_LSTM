@@ -21,3 +21,5 @@ python detect_all_symbol.py
 
 
 python view_all_symbol.py 
+
+test

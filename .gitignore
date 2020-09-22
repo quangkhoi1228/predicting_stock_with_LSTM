@@ -1,11 +1,11 @@
 
 #envs, data, models & results file
 envs
-data/*
-models/*
-result/*
-web/html/*
-web/json/*
+# data/*
+# models/*
+# result/*
+# web/html/*
+# web/json/*
 
 
 creds.json
