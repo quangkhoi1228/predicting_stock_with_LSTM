@@ -24,6 +24,7 @@ from model_handle_util import train_predict, statistic_result
 # import view result function
 from view_all_symbol import view_result
 
+
 # symbol name
 symbol = 'SSI'
 # trading view get data url
@@ -35,7 +36,7 @@ data_csv_path = f'{data_path}{csv_file_name}'
 # save json result path
 json_path = f'{os.getcwd()}/web/json/{symbol}.json'
 
-
+# -------------------------------declare variable-----------
 # create get data option input json
 get_data_options = {
     'symbol': symbol,
@@ -43,13 +44,10 @@ get_data_options = {
     'trading_view_data_url': trading_view_data_url
 }
 # get data symbol
-# data_from_tradingview(get_data_options)
+data_from_tradingview(get_data_options)
 
-
-# ----------------------------------------------------------------
-json_data_file_path = json_path
+# -------------------------------train,valuation model-------
 file_name = csv_file_name
-
 
 model_handle_options = {
     'epochs_range': 1,
@@ -64,7 +62,7 @@ train_predict(model_handle_options)
 list_statistic = statistic_result(model_handle_options)
 
 
-# ----------------------------------------------------------------
+#-------------------------------view result as web page------
 view_result_options = {
     'json_data_file_path': json_path,
     'symbol': symbol

@@ -10,8 +10,12 @@ envs
 
 creds.json
 .vscode
-*.csv
-*.h5
+*.csv[^SSI.csv]
+*.h5[^SSI_1_10.h5]
+*.json[^SSI.json]
+*.html[^SSI.html]
+
+
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
