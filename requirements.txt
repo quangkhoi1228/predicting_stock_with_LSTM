@@ -6,3 +6,4 @@ keras
 tensorflow
 matplotlib
 xlrd
+requests

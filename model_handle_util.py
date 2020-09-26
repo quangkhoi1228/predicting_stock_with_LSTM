@@ -19,20 +19,23 @@ tf.random.set_seed(4)
 
 
 def get_info_from_options(options):
-    file_name = options.get('file_name') or 'VN_INDEX_daily.csv'
-    data_path = options.get('data_path') or f'{os.getcwd()}/data/index/'
+    file_name = options.get(
+        'file_name') if 'file_name' in options else 'VN_INDEX_daily.csv'
+    data_path = options.get(
+        'data_path') if 'data_path' in options else f'{os.getcwd()}/data/index/'
     base_name = file_name.replace(".csv", "")
     file_name_path = f'{data_path}{file_name}'
-    moving_average = options.get('moving_average') or 30
-    epochs = options.get('epochs') or 10
-    start = options.get('start') or 0
-    end = options.get('end') or -1
+    moving_average = options.get(
+        'moving_average') if 'moving_average' in options else 30
+    epochs = options.get('epochs') if 'epochs' in options else 10
+    start = options.get('start') if 'start' in options else 0
+    end = options.get('end') if 'end' in options else -1
     predict_delay_session_list = options.get(
-        'predict_delay_session_list') or [1, 3, 5, 10]
+        'predict_delay_session_list') if 'predict_delay_session_list' in options else [1, 3, 5, 10]
     model_base_name = f'{base_name}_{epochs}_{moving_average}'
     model_name = f'{os.getcwd()}/models/{base_name}_{epochs}_{moving_average}.h5'
     result_name = f'{os.getcwd()}/result/{base_name}.json'
-    json_path = f'{os.getcwd()}/web/json/index/{base_name}.json'
+    json_path = f'{os.getcwd()}/web/json/{base_name}.json'
 
     return {
         'file_name': file_name_path,
@@ -383,6 +386,7 @@ def train_predict(input_config):
     moving_average_range = input_config['moving_average_range']
     predict_delay_session_list = input_config['predict_delay_session_list']
     file_name = input_config['file_name']
+    data_path = input_config['data_path']
     # for j in range(epochs_range):
     #     epochs = (j+1)*10
     epochs = epochs_range
@@ -392,7 +396,8 @@ def train_predict(input_config):
             'file_name': file_name,
             'epochs': epochs,
             'moving_average': moving_average,
-            'predict_delay_session_list': predict_delay_session_list
+            'predict_delay_session_list': predict_delay_session_list,
+            'data_path': data_path
         }
 
         train_model(options)

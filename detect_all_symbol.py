@@ -8,7 +8,7 @@ import threading
 import random
 
 
-from main import main
+from model_handle_util import main
 
 data_path = f'{os.getcwd()}/data/index/'
 json_path = f'{os.getcwd()}/web/json/index'
@@ -19,8 +19,8 @@ all_file = ['HNX30.csv']
 # list_statistic = {}
 for file_name in all_file:
 
-# for i in range(1000):
-#     file_name = random.choice(all_file)
+    # for i in range(1000):
+    #     file_name = random.choice(all_file)
 
     try:
         symbol = file_name.replace('.csv', '')
