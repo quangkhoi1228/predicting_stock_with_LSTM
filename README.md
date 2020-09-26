@@ -1,37 +1,50 @@
-# Stock Trading with Machine Learning
-
-## Overview
-
-A stock trading bot that uses machine learning to make price predictions.
+# Predicting stock with LSTM
 
 ## Requirements
 
--   Python 3.5+
--   alpha_vantage
--   pandas
--   numpy
--   sklearn
--   keras
--   tensorflow
--   matplotlib
+- python 3.8
+- alpha_vantage
+- pandas
+- numpy
+- sklearn
+- keras
+- tensorflow
+- matplotlib
+- xlrd
+- requests
 
-## Documentation
 
-[Blog Post](https://yacoubahmed.me/blog/stock-prediction-ml)
+## Setup project
+### Linix/MacOs
 
-[Medium Article](https://medium.com/towards-data-science/getting-rich-quick-with-machine-learning-and-stock-market-predictions-696802da94fe)
-
-## Train your own model
-
-1. Clone the repo
-2. Pip install the requirements `pip install -r requirements.txt`
-3. Save the stock price history to a csv file `python save_data_to_csv.py --help`
-4. Edit one of the model files to accept the symbol you want
-5. Edit model architecture
-6. Edit dataset preprocessing / history_points inside util.py
-7. Train the model `python tech_ind_model.py` or `python basic_model.py`
-8. Try the trading algorithm on the newly saved model `python trading_algo.py`
-
-## License
-
-[GPL-3.0](https://www.gnu.org/licenses/quick-guide-gplv3.html)
+1. Clone the repo or use command line
+```
+git clone https://github.com/quangkhoi1228/predicting_stock_with_LSTM.git
+```
+2. Go to source code folder
+```
+cd parentDir/predicting_stock_with_LSTM
+```
+3. Create runtime environment
+```
+pip3 install virtualenv
+virtualenv envs
+source envs/bin/activate
+pip install -r requirements.txt --use-feature=2020-resolver
+```
+### Window
+Clone the repo or use command line
+```
+git clone https://github.com/quangkhoi1228/predicting_stock_with_LSTM.git
+```
+2. Go to source code folder
+```
+cd parentDir\predicting_stock_with_LSTM
+```
+3. Create runtime environment
+```
+pip3 install virtualenv
+virtualenv envs
+.\envs\Scripts\activate
+pip install -r requirements.txt --use-feature=2020-resolver
+```
