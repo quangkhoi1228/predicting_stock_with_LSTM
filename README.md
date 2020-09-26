@@ -48,3 +48,6 @@ virtualenv envs
 .\envs\Scripts\activate
 pip install -r requirements.txt --use-feature=2020-resolver
 ```
+
+## Run custom stock symbol
+<img src="./web/static/image/1.png">

@@ -24,7 +24,7 @@ from model_handle_util import train_predict, statistic_result
 # import view result function
 from view_all_symbol import view_result
 
-
+# -------------------------------declare variable-----------
 # symbol name
 symbol = 'SSI'
 # trading view get data url
@@ -33,10 +33,18 @@ trading_view_data_url = 'https://iboard.ssi.com.vn/dchart/api/history'
 data_path = f'{os.getcwd()}/data/'
 csv_file_name = f'{symbol}.csv'
 data_csv_path = f'{data_path}{csv_file_name}'
+
+#epochs: number of train model
+epochs = 5
+#moving_average_range: range of moving averages from 10 to (n+1)*10
+moving_average_range = 5
+#predict_delay_session_list: to caculate t+n accuracy
+predict_delay_session_list = [1, 3, 5, 10, 20]
+
 # save json result path
 json_path = f'{os.getcwd()}/web/json/{symbol}.json'
 
-# -------------------------------declare variable-----------
+# -------------------------------get data symbol-----------
 # create get data option input json
 get_data_options = {
     'symbol': symbol,
@@ -50,9 +58,9 @@ data_from_tradingview(get_data_options)
 file_name = csv_file_name
 
 model_handle_options = {
-    'epochs_range': 1,
-    'moving_average_range': 1,
-    'predict_delay_session_list': [1, 3, 5, 10, 20],
+    'epochs_range': epochs,
+    'moving_average_range': moving_average_range,
+    'predict_delay_session_list': predict_delay_session_list,
     'file_name': file_name,
     'data_path': data_path,
     'data_csv_path': data_csv_path
