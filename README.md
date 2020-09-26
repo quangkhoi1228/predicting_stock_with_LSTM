@@ -50,4 +50,7 @@ pip install -r requirements.txt --use-feature=2020-resolver
 ```
 
 ## Run custom stock symbol
+1. Open master_file.py and change stock symbol
 <img src="./web/static/image/1.png">
+
+2. Run the python file to see the magic
