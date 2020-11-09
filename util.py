@@ -60,7 +60,6 @@ def multiple_csv_to_dataset(test_set_name):
     next_day_open_values = 0
     for csv_file_path in list(filter(lambda x: x.endswith('daily.csv'), os.listdir('./'))):
         if not csv_file_path == test_set_name:
-            print(csv_file_path)
             if type(ohlcv_histories) == int:
                 ohlcv_histories, technical_indicators, next_day_open_values, _, _ = csv_to_dataset(csv_file_path)
             else:

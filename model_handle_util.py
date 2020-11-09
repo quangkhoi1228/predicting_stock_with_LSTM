@@ -94,9 +94,11 @@ def train_model(options):
     if os.path.isfile(save_name) == True:
         print(f'{model_base_name} trained')
         return
-
-    ohlcv_histories, technical_indicators, next_day_open_values, unscaled_y, y_normaliser = csv_to_dataset(
-        file_name)
+    try:
+        ohlcv_histories, technical_indicators, next_day_open_values, unscaled_y, y_normaliser = csv_to_dataset(
+            file_name)
+    except():
+        print('data parse false')
     test_split = 0.9
     n = int(ohlcv_histories.shape[0] * test_split)
     ohlcv_train = ohlcv_histories[:n]
@@ -188,7 +190,6 @@ def predict_model(options):
     y_test = next_day_open_values[n:]
 
     unscaled_y_test = unscaled_y[n:]
-
     y_test_predicted = model.predict([ohlcv_test, tech_ind_test])
     y_test_predicted = y_normaliser.inverse_transform(y_test_predicted)
     buys = []
@@ -257,6 +258,7 @@ def predict_model(options):
     # caculate buy sell with difference predicted price
     buyWithDifference = []
     sellWithDifference = []
+    buy_sell_difference = []
 
     rootPredictedPriceList = predictedPriceList[0]
     for index, predictedValue in enumerate(predictedPriceList):
@@ -264,9 +266,11 @@ def predict_model(options):
             if predictedValue > predictedPriceList[index - 1]:
                 buyWithDifference.append(
                     (index - 1, predictedPriceList[index - 1]))
+                buy_sell_difference.append('buy')
             else:
                 sellWithDifference.append(
                     (index - 1, predictedPriceList[index - 1]))
+                buy_sell_difference.append('sell')
 
     # plt.scatter(list(list(zip(*buyWithDifference))[0]),
     #             list(list(zip(*buyWithDifference))[1]), c='#00ff00', s=10)
@@ -313,12 +317,13 @@ def predict_model(options):
         if total_caculate_deal > 0:
             print(deal_type, ': total deal: ', len(list_data), ', total caculate deal: ',
                   total_caculate_deal, ', true: ', true_deal, ', false: ', false_deal, ' accuracy: ',
-                  (true_deal/total_caculate_deal*100), '%')
-            return [deal_type, len(list_data), total_caculate_deal, true_deal, false_deal, true_deal/total_caculate_deal*100]
+                  round(true_deal/total_caculate_deal*100, 1), '%')
+            return [deal_type, len(list_data), total_caculate_deal, true_deal, false_deal, round(true_deal/total_caculate_deal*100, 1)]
+            # return [deal_type, len(list_data), total_caculate_deal, true_deal, false_deal,'no_signed_deal']
         else:
             print(deal_type, ': total deal: ', len(list_data), ', total caculate deal: ',
                   total_caculate_deal, ', true: ', true_deal, ', false: ', false_deal)
-            return [deal_type, len(list_data), total_caculate_deal, true_deal, false_deal, 0]
+            return [deal_type, len(list_data), total_caculate_deal, true_deal, false_deal,'no_signed_deal']
 
     def caculate_accuracy_predicted_with_delay_session(delay_session):
         print('delay_session: ', delay_session)
@@ -342,6 +347,8 @@ def predict_model(options):
     return {
         'options': options,
         'buy_result_list': buy_result_list,
+        'predicted_price_list' : predictedPriceList,
+        'buy_sell_difference' : buy_sell_difference
     }
 
     # plt.show()
@@ -373,6 +380,8 @@ def save_result(predict_result):
         delay_session_key = f'delay_session_{delay_session}'
         pre_content[epochs_key][moving_average_key][delay_session_key] = predict_result['buy_result_list'][delay_session]
 
+    pre_content['predicted_price_list'] = predict_result['predicted_price_list']
+    pre_content['buy_sell_difference'] = predict_result['buy_sell_difference']
     result_file = open(result_name, "w+")
     result_file.write(json.dumps(pre_content, sort_keys=True))
     result_file.close()
@@ -514,15 +523,17 @@ def statistic_result(input_config):
         for delay_session_index, delay_session in enumerate(predict_delay_session_list):
             delay_session_key = f'delay_session_{delay_session}'
             ratio_predicted = pre_content[epochs_key][moving_average_key][delay_session_key][-1]
-            value_matrix[i][delay_session_index] = ratio_predicted
+            value_matrix[i][delay_session_index] = ratio_predicted if ratio_predicted!='no_signed_deal' else -1
 
     statistic_result = find_max_value_matrix(
         value_matrix.tolist(), options)
     list_statistic[epochs] = statistic_result
 
+    statistic_result['buy_sell_difference'] = pre_content['buy_sell_difference']
+
     view_statistic_result(list_statistic, options)
 
-    return list_statistic
+    return list_statistic   
 
 
 def main(options):

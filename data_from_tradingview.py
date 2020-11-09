@@ -38,3 +38,5 @@ def data_from_tradingview(get_data_options):
 
     df_file = pd.DataFrame(data_json)
     df_file.to_csv(data_path, index=False)
+    print(len(data_json['date']), 'row data')
+    return False if len(data_json['date']) == 0 else True

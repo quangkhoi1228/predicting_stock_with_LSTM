@@ -26,7 +26,7 @@ from view_all_symbol import view_result
 
 # -------------------------------declare variable-----------
 # symbol name
-symbol = 'SSI'
+symbol = 'STB'
 # trading view get data url
 trading_view_data_url = 'https://iboard.ssi.com.vn/dchart/api/history'
 # save csv data path
@@ -52,28 +52,30 @@ get_data_options = {
     'trading_view_data_url': trading_view_data_url
 }
 # get data symbol
-data_from_tradingview(get_data_options)
+get_data_result = data_from_tradingview(get_data_options)
+if get_data_result == True:
+    # -------------------------------train,valuation model-------
+    file_name = csv_file_name
 
-# -------------------------------train,valuation model-------
-file_name = csv_file_name
+    model_handle_options = {
+        'epochs_range': epochs,
+        'moving_average_range': moving_average_range,
+        'predict_delay_session_list': predict_delay_session_list,
+        'file_name': file_name,
+        'data_path': data_path,
+        'data_csv_path': data_csv_path
+    }
 
-model_handle_options = {
-    'epochs_range': epochs,
-    'moving_average_range': moving_average_range,
-    'predict_delay_session_list': predict_delay_session_list,
-    'file_name': file_name,
-    'data_path': data_path,
-    'data_csv_path': data_csv_path
-}
+    train_predict(model_handle_options)
+    list_statistic = statistic_result(model_handle_options)
 
-train_predict(model_handle_options)
-list_statistic = statistic_result(model_handle_options)
+    #-------------------------------view result as web page------
+    view_result_options = {
+        'json_data_file_path': json_path,
+        'symbol': symbol
+    }
+    view_result(view_result_options)
 
+else:
+    print('the data is blank or the data is not enough')
 
-#-------------------------------view result as web page------
-view_result_options = {
-    'json_data_file_path': json_path,
-    'symbol': symbol
-
-}
-view_result(view_result_options)

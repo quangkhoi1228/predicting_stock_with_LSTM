@@ -41,7 +41,7 @@ def view_all_result(options):
     result_file_name = f'{os.getcwd()}/web/html/0_all_result_{save_file_name}.html'
     result_file = open(result_file_name, "w")
     result_file.write(
-        f'{content}<style>{css_content}</style><script>{js_content}</script><script>var type="all";  var data = {list_statistic}; index.build(data);</script>')
+        f'{content}<script>{js_content}</script><script>var type="all";  var data = {list_statistic}; index.build(data);</script>')
     result_file.close()
 
     url = "file://"+result_file_name
